@@ -55,9 +55,14 @@ public class EEGModel {
 	 * 
 	 * @param measurements The Measurements that make up the EEGModel.
 	 */
-	public EEGModel(Measurement[] measurements) {
-		// TODO
-		
+	public EEGModel(Measurement[] measurements) { 
+		//TODO
+		if (measurements != null) {
+			for (int i = 0; i< measurements.length; i++) {
+				Measurement m = measurements[i];
+				this.addMeasurement(m);
+			}
+		}
 	}
 
 	/**
@@ -90,8 +95,10 @@ public class EEGModel {
 	 */
 	public EEGModel filter(Filter filter) {
 		// TODO
-		
-		return null;
+		if (filter != null) {
+			return filter.applyFilter(this);
+		}
+		return this;
 	}
 
 	/**
