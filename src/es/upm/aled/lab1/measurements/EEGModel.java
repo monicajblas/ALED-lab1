@@ -32,6 +32,7 @@ public class EEGModel {
 	 * Builds an empty EEGModel.
 	 */
 	public EEGModel() {
+		
 	}
 
 	/**
