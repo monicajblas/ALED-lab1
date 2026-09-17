@@ -57,7 +57,6 @@ public class EEGModel {
 	 * @param measurements The Measurements that make up the EEGModel.
 	 */
 	public EEGModel(Measurement[] measurements) { 
-		//TODO
 		if (measurements != null) {
 			for (int i = 0; i< measurements.length; i++) {
 				Measurement m = measurements[i];
@@ -95,11 +94,10 @@ public class EEGModel {
 	 * @return The new EEGModel.
 	 */
 	public EEGModel filter(Filter filter) {
-		// TODO
 		if (filter != null) {
 			return filter.applyFilter(this);
 		}
-		return this;
+		return null;
 	}
 
 	/**
@@ -138,7 +136,6 @@ public class EEGModel {
 	 * @throws IOException Thrown if the file can't be written.
 	 */
 	public void saveFile(String fileName) throws IOException {
-		// TODO
 		File f = new File(fileName);
 		FileOutputStream fos = new FileOutputStream(f);
 		PrintStream ps = new PrintStream (fos);
@@ -271,12 +268,18 @@ public class EEGModel {
 		if (args.length > 0) {
 			EEGModel eeg = new EEGModel(args[0]);
 			eeg.plotData();
-			// TODO
+			
 			
 		} else {
 			EEGModel eeg = new EEGModel();
 			eeg.createSyntheticData(1000);
-			// TODO
+			try {
+		        eeg.saveFile("Synthetic.txt");
+		    } catch (IOException e) {
+		        System.out.println("Error saving to file.");
+		        e.printStackTrace();
+		    }
+		
 			
 		}
 	}
