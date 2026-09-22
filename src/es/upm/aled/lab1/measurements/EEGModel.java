@@ -56,13 +56,9 @@ public class EEGModel {
 	 * 
 	 * @param measurements The Measurements that make up the EEGModel.
 	 */
-	public EEGModel(Measurement[] measurements) { 
-		if (measurements != null) {
-			for (int i = 0; i< measurements.length; i++) {
-				Measurement m = measurements[i];
-				this.addMeasurement(m);
-			}
-		}
+	public EEGModel(Measurement[] measurements) { //Como EEGModel tiene una lista pero  el contructor recibe un array,
+		for (Measurement m : measurements)        //añadimos los elementos del array a la lista 
+			this.addMeasurement(m);
 	}
 
 	/**
@@ -94,10 +90,7 @@ public class EEGModel {
 	 * @return The new EEGModel.
 	 */
 	public EEGModel filter(Filter filter) {
-		if (filter != null) {
-			return filter.applyFilter(this);
-		}
-		return null;
+		return filter.applyFilter(this);
 	}
 
 	/**
@@ -139,18 +132,14 @@ public class EEGModel {
 		File f = new File(fileName);
 		FileOutputStream fos = new FileOutputStream(f);
 		PrintStream ps = new PrintStream (fos);
-				
-		for (int i = 0; i < measurements.size(); i++) {
-			Measurement m = measurements.get(i);
-			StringBuilder line = new StringBuilder(); //Vas a construir la línea de texto trozo a trozo
-			line.append(i % 256);
-			   for (int c = 0; c < m.numChannels(); c++) {
-			     line.append(", ").append(m.getChannel(c));
-			    }
-			    ps.println(line.toString());
-			  }
-
-			  ps.close(); 
+		
+		int indice = 0;
+		for (Measurement m : this.measurements) {
+			ps.print((indice++)%256);
+			for(int i = 0; i < m.numChannels(); i++)
+				ps.print(", " + m.getChannel(i));
+		}
+		ps.close();
 	}
 
 	/**

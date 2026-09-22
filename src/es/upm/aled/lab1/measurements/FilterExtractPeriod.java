@@ -29,14 +29,16 @@ public class FilterExtractPeriod implements Filter {
 
 	@Override
 	public EEGModel applyFilter(EEGModel eeg) {
-		Measurement[] original = eeg.getMeasurements();
-        Measurement[] filtradas = new Measurement[max-min+1];
-        
-        for (int i = min; i <= max; i++) {
-        	filtradas[i-min]=original[i];
-        }
-        EEGModel eeg2 = new EEGModel(filtradas);
-        return eeg2; 
-        
+		Measurement [] medidasOriginales = eeg.getMeasurements(); //Obtengo las medidas del eeg con "getMeasurements" y las guardo en un array 
+		
+		if(medidasOriginales.length < max && medidasOriginales.length > min) {
+			Measurement [] medidasFiltradas = new Measurement [max - min + 1]; //Creo un array de medidas del tamaño del rango que me interesa
+			int k = 0;
+			
+			for(int i = min; i <= max; i++) //Recorro las medidas que me interesan del array original
+				medidasFiltradas[k++] = medidasOriginales[i];
+			return new EEGModel(medidasFiltradas);
+		}
+		return new EEGModel();
 	}
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author mmiguel, rgarciacarmona
  *
  */
-public class FilterExtractChannels extends EEGModel implements Filter {
+public class FilterExtractChannels implements Filter {
 
 	private int[] validChannels;
 	
@@ -24,18 +24,17 @@ public class FilterExtractChannels extends EEGModel implements Filter {
 
 	@Override
 	public EEGModel applyFilter(EEGModel eeg) {
-		Measurement[] original = eeg.getMeasurements();
-        Measurement[] filtradas = new Measurement[original.length];
+		Measurement[] medidasOriginales = eeg.getMeasurements(); //Obtengo medidas originales de mi lista 
+        Measurement[] medidasFiltradas = new Measurement[medidasOriginales.length]; //array para guardar las medidas con los canales que me interesan
         
-        for (int i = 0; i < original.length; i++) {
-            float[] channels = new float[validChannels.length];
-            for (int j = 0; j < validChannels.length; j++) {
-                channels[j] = original[i].getChannel(validChannels[j]);
-            }
-            filtradas[i] = new Measurement(channels);
-        }
-       
-		return new EEGModel(filtradas);
+        for (int i = 0; i < medidasOriginales.length; i++) {
+        	float [] channels = new float [validChannels.length]; //creo un array vacío para guaradar dichos canales 
+        	int k = 0;
+        		for (int c : validChannels)
+        			channels[k++] = medidasOriginales[i].getChannel(c); //guardo en cada medida los canales válidos 
+        		medidasFiltradas[i] = new Measurement(channels);
+        } 
+        return new EEGModel(medidasFiltradas); 
 	}
 
 }
